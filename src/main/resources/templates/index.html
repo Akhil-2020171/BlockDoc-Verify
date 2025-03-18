@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <!-- bs-custom-file-input CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.css" />
+  <!-- SweetAlert2 CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" /> 
+
+  <title>Document Upload and Verification - Blockchain</title>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h1>Document Upload and Verification - Blockchain</h1>
+        <form id="uploadForm" action="/uploadDocument" method="POST" enctype="multipart/form-data">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <div class="form-group">
+            <label for="file">Choose File</label>
+            <input type="file" class="form-control-file" id="file" name="file" required />
+          </div>
+          <button type="submit" class="btn btn-primary">Upload</button>
+        </form>
+      </div>
+    </div>
+    <!-- Table for uploaded documents remains unchanged -->
+    <div class="row">
+      <div class="col-md-12">
+        <h2>Uploaded Documents</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">File Name</th>
+              <th scope="col">File Type</th>
+              <th scope="col">File Size</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="document : ${documents}">
+              <td th:text="${document.documentId}"></td>
+              <td th:text="${document.documentName}"></td>
+              <td th:text="${document.documentExtension}"></td>
+              <td th:text="${document.documentSize}"></td>
+              <td><a th:href="@{'/download/' + ${document.documentId}}">Download</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+    <!-- jQuery, Popper, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <!-- bs-custom-file-input -->
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+
+  <script>
+    $(document).ready(function () {
+      bsCustomFileInput.init();
+
+      // Intercept the form submission
+      $("#uploadForm").on("submit", function (e) {
+        e.preventDefault(); // prevent the default form submission
+        var form = $(this);
+        var formData = new FormData(this);
+
+        $.ajax({
+          url: form.attr("action"),
+          type: form.attr("method"),
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function (response) {
+            Swal.fire({
+              icon: "success",
+              title: "Success",
+              text: response
+            });
+          },
+          error: function (xhr) {
+            // If error response is provided by the backend, use it in the message
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: xhr.responseText || "An error occurred during file upload."
+            });
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

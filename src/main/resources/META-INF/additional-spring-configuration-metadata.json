@@ -1,0 +1,32 @@
+{"properties": [
+  {
+    "name": "ftp.server.host",
+    "type": "java.lang.String",
+    "description": "FTP server host"
+  },
+  {
+    "name": "ftp.server.port",
+    "type": "java.lang.String",
+    "description": "FTP server port"
+  },
+  {
+    "name": "ftp.server.username",
+    "type": "java.lang.String",
+    "description": "FTP server username"
+  },
+  {
+    "name": "ftp.server.password",
+    "type": "java.lang.String",
+    "description": "FTP server password"
+  },
+  {
+    "name": "ftp.server.directory",
+    "type": "java.lang.String",
+    "description": "FTP server directory"
+  },
+  {
+    "name": "server.common.host",
+    "type": "java.lang.String",
+    "description": "FTP/Database Server IP"
+  }
+]}
