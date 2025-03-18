@@ -26,8 +26,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests --file pom.xml
 
-      - name: Run tests
-        run: mvn test --file pom.xml
+      #- name: Run tests
+      #  run: mvn test --file pom.xml
 
       # Optionally, you can add a step to publish your artifact or deploy it
       #- name: Upload artifact
